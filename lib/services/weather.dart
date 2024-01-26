@@ -1,3 +1,6 @@
+
+import 'networking.dart';
+import 'package:clima/services/location.dart';
 class WeatherModel {
   String getWeatherIcon(int condition) {
     if (condition < 300) {
@@ -29,5 +32,16 @@ class WeatherModel {
     } else {
       return 'Bring a 🧥 just in case';
     }
+  }
+
+  Future<dynamic> getLocationWeather() async{
+    Location location = Location();
+    await location.getCurrentLocation();
+
+    NetworkHelper networkHelper = NetworkHelper('https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=9375e2c4ee6abc604a9b7e720179383f#');
+
+    var weatherData = await networkHelper.getData();
+
+    return weatherData;
   }
 }
